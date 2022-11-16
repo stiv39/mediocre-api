@@ -16,14 +16,6 @@ namespace app_api.Controllers
         {
             _context = context;
         }
-        private static List<Post> posts = new List<Post>
-            {
-                new Post { Id = 1, Author = "Luis Enrique", Title = "Hello world", Body="Hello world!"},
-                new Post { Id = 2, Author = "Felipe Scolari", Title = "Ola friends", Body="Lorem impsum"},
-                new Post { Id = 3, Author = "Hugo Chavez", Title = "Not like this", Body="Lorem impsum Lorem impsum Lorem impsum"},
-                new Post { Id = 4, Author = "Diego Costa", Title = "What the hell", Body="Lorem impsum Lorem impsumLorem impsumLorem impsum"}
-            };
-
 
         [HttpGet]
         public async Task<ActionResult<IList<Post>>> GetAllPosts()
