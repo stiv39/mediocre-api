@@ -5,3 +5,9 @@ obj/*
 /app-api/obj
 /app-domain/obj
 /app-services/obj
+/app-api/.vs/ProjectEvaluation
+/app-api/bin/Debug/net6.0
+/app-data/bin/Debug/net6.0
+/app-data/obj
+/app-domain/bin/Debug/net6.0
+/app-services/bin/Debug/net6.0
