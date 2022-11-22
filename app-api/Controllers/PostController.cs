@@ -1,9 +1,7 @@
-﻿using app_data.Context;
+﻿using app_domain.Core;
 using app_domain.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Swashbuckle.AspNetCore;
+
 
 namespace app_api.Controllers
 {
@@ -11,23 +9,23 @@ namespace app_api.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
-        private readonly DataContext _context;
-        public PostController(DataContext context)
+        private readonly IUnitOfWork _unitOfWork;
+        public PostController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         public async Task<ActionResult<IList<Post>>> GetAllPosts()
         {
-            var posts = await _context.Posts.ToListAsync();
+            var posts = await _unitOfWork.Posts.GetAll();
             return Ok(posts);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPostById(int id)
         {
-            var post = await _context.Posts.FirstOrDefaultAsync(post => post.Id == id);
+            var post = await _unitOfWork.Posts.GetById(id);
             if (post == null) return NotFound();
 
             return Ok(post);
@@ -36,22 +34,20 @@ namespace app_api.Controllers
         [HttpPost]
         public async Task<ActionResult> CreatePost(string author, string title, string body)
         {
-            await _context.Posts.AddAsync(new Post { Author = author, Title = title, Body = body });
-            _context.SaveChanges();
+            _unitOfWork.Posts.Add(new Post { Author = author, Title = title, Body = body });
+            await _unitOfWork.CompleteAsync();
             return Ok();
         }
 
         [HttpPut]
         public async Task<ActionResult> UpdatePost(Post post)
         {
-            var dbPost = await _context.Posts.FindAsync(post.Id);
-            if (dbPost == null) return BadRequest();
+            var postDb = await _unitOfWork.Posts.GetById(post.Id);
+            if (postDb == null) return NotFound();
 
-            dbPost.Author = post.Author;
-            dbPost.Title = post.Title;
-            dbPost.Body = post.Body;
+            _unitOfWork.Posts.Update(post);
 
-            await _context.SaveChangesAsync();
+            await _unitOfWork.CompleteAsync();
 
             return Ok();
         }
@@ -59,12 +55,12 @@ namespace app_api.Controllers
         [HttpDelete]
         public async Task<ActionResult> DeletePost(int id)
         {
-            var post = await _context.Posts.FirstOrDefaultAsync(post => post.Id == id);
-            if (post == null) return BadRequest();
+            var postDb = await _unitOfWork.Posts.GetById(id);
+            if (postDb == null) return NotFound();
 
-            _context.Posts.Remove(post);
+            _unitOfWork.Posts.Delete(postDb);
 
-            await _context.SaveChangesAsync();
+            await _unitOfWork.CompleteAsync();
 
             return Ok();
         }
