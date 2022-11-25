@@ -34,7 +34,7 @@ namespace app_api.Controllers
         [HttpPost]
         public async Task<ActionResult> CreatePost(string author, string title, string body)
         {
-            _unitOfWork.Posts.Add(new Post { Author = author, Title = title, Body = body });
+            await _unitOfWork.Posts.Add(new Post { Author = author, Title = title, Body = body });
             await _unitOfWork.CompleteAsync();
             return Ok();
         }
@@ -45,7 +45,7 @@ namespace app_api.Controllers
             var postDb = await _unitOfWork.Posts.GetById(post.Id);
             if (postDb == null) return NotFound();
 
-            _unitOfWork.Posts.Update(post);
+             await _unitOfWork.Posts.Update(post);
 
             await _unitOfWork.CompleteAsync();
 
@@ -58,7 +58,7 @@ namespace app_api.Controllers
             var postDb = await _unitOfWork.Posts.GetById(id);
             if (postDb == null) return NotFound();
 
-            _unitOfWork.Posts.Delete(postDb);
+            await _unitOfWork.Posts.Delete(postDb);
 
             await _unitOfWork.CompleteAsync();
 

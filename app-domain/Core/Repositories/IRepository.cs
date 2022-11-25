@@ -7,10 +7,10 @@ namespace app_domain.Core.Repositories
     {
         Task<TEntity?> GetById(int id);
         Task<IEnumerable<TEntity>> GetAll();
-        void Add(TEntity entity);
-        void Update(TEntity entity);
-        void Delete(TEntity entity);
+        Task<bool> Add(TEntity entity);
+        Task<bool> Update(TEntity entity);
+        Task<bool> Delete(TEntity entity);
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
-        TEntity? SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity?> SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
     }
 }

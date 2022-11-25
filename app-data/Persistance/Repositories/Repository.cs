@@ -23,19 +23,22 @@ namespace app_data.Persistance.Repositories
             return await Context.Set<TEntity>().FindAsync(id);
         }
 
-        public async void Add(TEntity entity)
+        public async Task<bool> Add(TEntity entity)
         {
             await Context.Set<TEntity>().AddAsync(entity);
+            return true;
         }
 
-        public void Update(TEntity entity)
+        public async Task<bool> Update(TEntity entity)
         {
             Context.Set<TEntity>().Update(entity);
+            return true;
         }
 
-        public void Delete(TEntity entity)
+        public async Task<bool> Delete(TEntity entity)
         {
             Context.Set<TEntity>().Remove(entity);
+            return true;
         }
 
         public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
@@ -43,10 +46,9 @@ namespace app_data.Persistance.Repositories
             return Context.Set<TEntity>().Where(predicate);
         }
 
-        public TEntity? SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity?> SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            return Context.Set<TEntity>().SingleOrDefault(predicate);
+            return await Context.Set<TEntity>().SingleOrDefaultAsync(predicate);
         }
-
     }
 }
