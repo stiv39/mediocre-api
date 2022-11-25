@@ -1,5 +1,5 @@
 ﻿using app_domain.Core;
-using app_domain.Models;
+using app_domain.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 

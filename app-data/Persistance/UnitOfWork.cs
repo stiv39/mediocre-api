@@ -13,9 +13,11 @@ namespace app_data.Persistance
         {
             _context = context;
             Posts = new PostRepository(_context);
+            Todos = new TodoRepository(_context);
         }
 
         public IPostRepository Posts { get; private set; }
+        public ITodoRepository Todos { get; private set; }
 
         public async Task<int> CompleteAsync()
         {

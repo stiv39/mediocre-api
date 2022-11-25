@@ -1,4 +1,4 @@
-﻿using app_domain.Models;
+﻿using app_domain.Core.Models;
 
 namespace app_data.Context
 {

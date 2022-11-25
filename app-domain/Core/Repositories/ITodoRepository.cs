@@ -3,7 +3,7 @@
 
 namespace app_domain.Core.Repositories
 {
-    public interface IPostRepository : IRepository<Post>
+    public interface ITodoRepository : IRepository<Todo>
     {
     }
 }
