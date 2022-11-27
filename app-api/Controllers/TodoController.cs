@@ -22,7 +22,7 @@ namespace app_api.Controllers
             return Ok(todos);
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Todo>> GetTodoById(int id)
         {
             var todoFromDb = await _unitOfWork.Todos.GetById(id);
