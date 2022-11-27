@@ -33,9 +33,9 @@ namespace app_api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateTodo(Todo todo)
+        public async Task<ActionResult> CreateTodo(string title, int userId, bool completed)
         {
-            await _unitOfWork.Todos.Add(todo);
+            await _unitOfWork.Todos.Add(new Todo { Title = title, UserId = userId, Completed = completed });
             await _unitOfWork.CompleteAsync();
 
             return Ok();
